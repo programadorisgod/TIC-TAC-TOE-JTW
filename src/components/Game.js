@@ -5,7 +5,6 @@ import Winners from './WinnersBoard'
 import Buscar from './Buscar'
 import Update from './Update'
 import Delete from './Delete'
-import Login from './Login'
 
 export default function Game () {
   const [history, setHistory] = useState([{ squares: Array(9).fill(null), coordinates: { row: null, col: null } }])
@@ -14,8 +13,11 @@ export default function Game () {
   const xIsNext = currentMove % 2 === 0
   const currentSquares = history[currentMove].squares
   const [winnersList, setWinnersList] = useState([])
-  const [token, setToken] = useState(null)
+  const token = localStorage.getItem('token')
   useEffect(() => {
+    if (!token) {
+      window.location.href = '/login'
+    }
     axios
       .get('http://localhost:3306/api/winners', { headers: { Authorization: `Bearer ${token}` } })
       .then((response) => setWinnersList(response.data))
@@ -50,7 +52,6 @@ export default function Game () {
       name: winner,
       time: reordereDate
     }
-    console.log(token)
 
     axios
       .post('http://localhost:3306/api/winners', win, { headers: { Authorization: `Bearer ${token}` } }).then(() => {
@@ -113,9 +114,7 @@ export default function Game () {
         <div>
           <Delete setWinnersList={setWinnersList} token={token} />
         </div>
-        <div>
-          <Login setToken={setToken} />
-        </div>
+
       </div>
 
     </div>

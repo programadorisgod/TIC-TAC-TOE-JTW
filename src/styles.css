@@ -1,14 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Bungee&display=swap");
+
+
 * {
   box-sizing: border-box;
   font-family: "Bungee", cursive;
+ 
+
 }
 
 body {
   font-family: "Bungee", cursive;
-  margin: 20px;
-  padding: 0;
-  background: #4e54c8;
+  margin: 0;
 }
 
 .tittle {
@@ -60,7 +62,11 @@ body {
 .game {
   display: flex;
   gap: 150px;
+  background: #4e54c8;
+  height: 100%;
+padding-bottom: 30px;
 }
+
 .game-board {
   margin-left: 50px;
   justify-content: center;
