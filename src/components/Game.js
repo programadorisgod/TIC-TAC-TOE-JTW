@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Board from './Board'
 import axios from 'axios'
 import Winners from './WinnersBoard'
 import Buscar from './Buscar'
 import Update from './Update'
 import Delete from './Delete'
+import AuthContext from '../context/AuthContext.js'
 
 export default function Game () {
   const [history, setHistory] = useState([{ squares: Array(9).fill(null), coordinates: { row: null, col: null } }])
@@ -14,8 +16,11 @@ export default function Game () {
   const currentSquares = history[currentMove].squares
   const [winnersList, setWinnersList] = useState([])
   const token = localStorage.getItem('token')
+  const { isLoggedIn, logout, setIsLoggedIn } = useContext(AuthContext)
+  const navigator = useNavigate()
+  console.log(isLoggedIn)
   useEffect(() => {
-    if (!token) {
+    if (!isLoggedIn && !token) {
       window.location.href = '/login'
     }
     axios
@@ -82,6 +87,12 @@ export default function Game () {
   if (orden === 'descendente') {
     moves.reverse()
   }
+  function handleLogout () {
+    logout()
+    setIsLoggedIn(false)
+    localStorage.removeItem('token')
+    navigator('/login')
+  }
 
   return (
     <div className='game'>
@@ -114,7 +125,7 @@ export default function Game () {
         <div>
           <Delete setWinnersList={setWinnersList} token={token} />
         </div>
-
+        <button className='logout' onClick={() => handleLogout()}> logout</button>
       </div>
 
     </div>

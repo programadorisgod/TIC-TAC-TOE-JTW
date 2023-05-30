@@ -136,7 +136,7 @@
 }
 
 .submit{
-    width: 200px;
+    width: 150px;
     height: 30px;
     margin: 30px auto;
     outline: none;
@@ -150,4 +150,23 @@
 
 .submit:hover{
     box-shadow: 0 0 10px #000;
+}
+.google{
+  width: 140px;
+  height: 40px;
+  margin: 0 auto;
+  border-radius: 10px;
+  
+ 
+}
+
+.icon-contain{
+  display: flex;
+  text-align: center;
+  gap: 10px;
+  justify-content: center;
+}
+.icon-title{
+ margin-top: 4px;
+  height: 10px;
 }

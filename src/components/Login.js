@@ -1,18 +1,27 @@
 import axios from 'axios'
 import '../login.css'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import AuthContext from '../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
+
+import { AiFillGoogleCircle } from 'react-icons/ai'
 export default function Login () {
   const [correo, setCorreo] = useState('')
+
   const [password, setPassword] = useState('')
+
+  const { setIsLoggedIn, loginWithGoogle } = useContext(AuthContext)
+  const navigate = useNavigate()
   function handleSubmit (e) {
     e.preventDefault()
 
     axios.post('http://localhost:3306/api/auth/login', { email: correo, password })
       .then((response) => {
-        console.log(response.data)
         const { token } = response.data
+        setIsLoggedIn(true)
+
         localStorage.setItem('token', token)
-        window.location.href = '/game'
+        navigate('/game')
       })
       .catch((error) => console.error(error))
   }
@@ -22,7 +31,16 @@ export default function Login () {
   function hanleChangePassword (e) {
     setPassword(e.target.value)
   }
-
+  async function handleGoogle (e) {
+    e.preventDefault()
+    const result = await loginWithGoogle()
+    console.log(result._tokenResponse.idToken)
+    if (result._tokenResponse.idToken) {
+      setIsLoggedIn(true)
+      localStorage.setItem('token', result._tokenResponse.idToken)
+      navigate('/game')
+    }
+  }
   return (
 
     <ul className='background'>
@@ -42,6 +60,8 @@ export default function Login () {
         <input className='Username' type='text' placeholder='Correo' value={correo} onChange={hanleChangeCorreo} />
         <input className='password' type='password' placeholder='Password' value={password} onChange={hanleChangePassword} />
         <button className='submit' type='submit'>Login</button>
+        <button className='google' onClick={handleGoogle}> <span className='icon-contain'> <span className='icon-title'>Google </span> <AiFillGoogleCircle size={25} /> </span> </button>
+
       </form>
     </ul>
 
