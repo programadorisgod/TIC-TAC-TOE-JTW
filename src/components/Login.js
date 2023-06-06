@@ -34,7 +34,7 @@ export default function Login () {
   async function handleGoogle (e) {
     e.preventDefault()
     const result = await loginWithGoogle()
-    console.log(result._tokenResponse.idToken)
+
     if (result._tokenResponse.idToken) {
       setIsLoggedIn(true)
       localStorage.setItem('token', result._tokenResponse.idToken)

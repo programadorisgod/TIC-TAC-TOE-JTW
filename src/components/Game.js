@@ -18,7 +18,7 @@ export default function Game () {
   const token = localStorage.getItem('token')
   const { isLoggedIn, logout, setIsLoggedIn } = useContext(AuthContext)
   const navigator = useNavigate()
-  console.log(isLoggedIn)
+
   useEffect(() => {
     if (!isLoggedIn && !token) {
       window.location.href = '/login'
