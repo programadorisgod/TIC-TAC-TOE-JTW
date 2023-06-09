@@ -9,6 +9,7 @@ const { useState, Suspense, lazy } = require('react')
 /* solo cargo el componente cuando lo necesite ya que esto es una promesa que le mandamos import y el devuelve un objecto
 que es el componente y este se resuelve cuando se monta el componente */
 /* se usa el suspense para mostrar algo mientras esa promesa de lazy se resuelve pude ser un spinner o en este caso un texto */
+
 const Game = lazy(() => import('./components/Game'))
 export default function App () {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -23,7 +24,7 @@ export default function App () {
   return (
     <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, loginWithGoogle, logout }}>
       <BrowserRouter>
-        <Suspense fallback='loanding...'>
+        <Suspense fallback='Loanding...'>
           <Routes>
             <Route index element={<Login />} />
             <Route path='/login' element={<Login />} />
